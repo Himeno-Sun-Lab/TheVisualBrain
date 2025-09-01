@@ -1,0 +1,32 @@
+#----
+#neuron-data-1M  (this is a directory with the neuron data)
+#vizu-src        (this is a directory with blender(2.79), python and slurm scripts)
+#----
+
+#cd to 'vizu-src' directory
+$ cd vizu-src
+
+#to run on this single workstation run the command:
+[visu-src]$ ./run-script-v2.sh ../neuron-data-1M ../output-dir 0 100 1 1
+
+That means that we pass data '../neuron-data-1M'
+The output directory will be '../output-dir'
+Start render frame 0
+End render frame 100
+Render Step = 1 
+Render on one node = 1
+
+#To run on the cluster:
+1 open 'submit-job-array-v2.slurm' file
+2 set number of nodes you planning to render on : #SBATCH --array=1-20 , (20 nodes)
+3 set first render frame number = 0
+4 set last render frame number = 10
+
+#on the cluster, from login node run
+[visu-src]$ sbatch submit-job-array-v2.slurm ../neuron-data-1M ../output-dir
+
+#---------------------------
+modify start-particles.blend in blender 2.79(or same version as installed on the clusted) so that all neurons are visible in render.
+add camera animation if needed.
+save start-particles.blend file after modifications.
+restart render to see new results.
